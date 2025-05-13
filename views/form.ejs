@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      margin-top: 10px;
+    }
+
+    input, textarea {
+      margin-top: 5px;
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1><%= title %></h1>
+  <form method="POST" action="/new">
+    <label for="user">Name:</label>
+    <input type="text" id="user" name="user" required>
+    <br>
+    <label for="text">Message:</label>
+    <textarea id="text" name="text" required></textarea>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
