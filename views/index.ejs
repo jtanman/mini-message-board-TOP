@@ -4,6 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messages</title>
+  <style>
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #f9f9f9;
+    }
+
+    strong {
+      font-size: 1.2rem;
+    }
+
+    small {
+      display: block;
+      margin-top: 5px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
   <h1><%= title %></h1>
@@ -13,6 +37,7 @@
       <li>
         <strong><%= message.user %></strong>: <%= message.text %> <br>
         <small><%= message.added.toLocaleString() %></small>
+        <a href="/message/<%= messages.indexOf(message) %>">Open</a>
       </li>
     <% }); %>
   </ul>

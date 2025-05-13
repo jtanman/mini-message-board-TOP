@@ -35,4 +35,16 @@ router.post('/new', (req, res) => {
   }
 });
 
+// Route to display details of a specific message
+router.get('/message/:id', (req, res) => {
+  const messageId = parseInt(req.params.id, 10);
+  const message = messages[messageId];
+
+  if (message) {
+    res.render('message', { title: 'Message Details', message });
+  } else {
+    res.status(404).send('Message not found');
+  }
+});
+
 module.exports = router;
