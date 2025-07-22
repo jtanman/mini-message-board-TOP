@@ -35,9 +35,9 @@
   <ul>
     <% messages.forEach(message => { %>
       <li>
-        <strong><%= message.user %></strong>: <%= message.text %> <br>
-        <small><%= message.added.toLocaleString() %></small>
-        <a href="/message/<%= messages.indexOf(message) %>">Open</a>
+        <strong><%= message.user %></strong>: <%= message.message %> <br>
+        <small><%= message.date.toLocaleString() %></small>
+        <a href="/message/<%= message.id %>">Open</a>
       </li>
     <% }); %>
   </ul>

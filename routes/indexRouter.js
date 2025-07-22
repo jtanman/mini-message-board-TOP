@@ -1,34 +1,29 @@
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date()
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date()
-  }
-];
-
 const express = require('express');
 const router = express.Router();
+const supabase = require('../supabaseClient');
 
-// Pass the messages array to the index.ejs view
-router.get('/', (req, res) => {
-  res.render("index", { title: "Mini Messageboard", messages: messages });
+// Show all messages
+router.get('/', async (req, res) => {
+  const { data: messages, error } = await supabase
+    .from('messages')
+    .select('*')
+    .order('date', { ascending: false });
+
+  debugger; // <-- Add debugger here to inspect messages and error
+
+  if (error) return res.status(500).send(error.message);
+  
+  res.render("index", { title: "Mini Messageboard", messages });
 });
 
 // Handle form submission for adding a new message
-router.post('/new', (req, res) => {
+router.post('/new', async (req, res) => {
   const { user, text } = req.body;
   if (user && text) {
-    const newMessage = {
-      text,
-      user,
-      added: new Date()
-    };
-    messages.push(newMessage);
+    const { error } = await supabase
+      .from('messages')
+      .insert([{ user, message: text, date: new Date() }]);
+    if (error) return res.status(500).send(error.message);
     res.redirect('/');
   } else {
     res.status(400).send('Both name and message are required.');
@@ -36,15 +31,15 @@ router.post('/new', (req, res) => {
 });
 
 // Route to display details of a specific message
-router.get('/message/:id', (req, res) => {
-  const messageId = parseInt(req.params.id, 10);
-  const message = messages[messageId];
+router.get('/message/:id', async (req, res) => {
+  const { data: message, error } = await supabase
+    .from('messages')
+    .select('*')
+    .eq('id', req.params.id)
+    .single();
 
-  if (message) {
-    res.render('message', { title: 'Message Details', message });
-  } else {
-    res.status(404).send('Message not found');
-  }
+  if (error || !message) return res.status(404).send('Message not found');
+  res.render('message', { title: 'Message Details', message });
 });
 
 module.exports = router;
